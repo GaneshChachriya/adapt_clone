@@ -1,0 +1,100 @@
+<section class="our-work-content">
+  <div class="container">
+    <div class="row">
+    <h1 class="text-center animated fadeInUp" id= "workElimenth3">Contact Us</h1>
+      <div class="col-md-6 col-sm-12">
+        <div class="contact-form">
+          
+          <%= form_for(:contact, url: contact_path, id: "contact-form1") do |f| %>
+            <div class="row">
+              <div class="comment-box"></div>
+              <div class="col-md-6 form-group">
+               <%= f.text_field :name, class: "form-control", placeholder: "Name", type:"text", required: :true%>
+              </div> 
+              <div class="col-md-6 form-group">
+                <%= f.text_field :email, class: "form-control email-field-class", placeholder: "Email", type:"text", required: :true%>
+              </div>
+              <label class="col-md-12 control-label" for="textarea"></label>
+
+              <div class="col-md-12">
+                <%= f.text_area :message, class: "form-control", id: "textarea", required: :true%>
+              </div>
+              <div class="col-md-8 text-left">
+               <%= f.submit "send message", class: "btn btn btn-warning send-mesage-btn"%>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="contact-add-box">
+          <ul class="address-details">
+            <h3>Our Address</h3>
+            <li><i class="glyphicon glyphicon-map-marker"></i> 417, AdaptClone Technologies </li>
+             <li class="address">18, Onam Plaza A.B.Road, Plasiya, Indore, Madhya Pradesh India.</li>
+            <li><i class="fa fa-phone"></i>+91-7898845310</li>
+            <li><i class="glyphicon glyphicon-envelope"> </i>contact@AdaptClonetechnologies.com</li>
+          </ul>
+        </div>
+      </div>
+      <div id="map"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initMap() {
+    var uluru = {lat: 22.72873, lng: 75.88821};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: uluru
+    });
+    
+    var marker = new google.maps.Marker({
+      position: uluru,
+      map: map
+    });
+    var infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+      service.getDetails({
+        placeId: 'ChIJ2QkpKPH8YjkRaHR6Jih5hIw'
+      }, 
+      function(place, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            var degFah = new Array ();
+            degFah = place.formatted_address;
+            var address = new Array ();
+            for (i = 0;  i < 47; i++) {
+              address = address + degFah[i];  
+            }
+            var halfaddress = new Array ();
+            for (j = 48; j < 84; j++) {
+              halfaddress = halfaddress + degFah[j];
+            }
+            infowindow.setContent('<div><strong>' +"AdaptClone Technologies" + '</strong><br>' +'303, '+
+              address + '<br>' + halfaddress + '</div>');
+            infowindow.open(map, this);
+          });
+        }
+      });
+    }
+  
+  $(".send-mesage-btn").click(function(){
+    var $email = $('.email-field-class');    
+    var re = /\S+@\S+\.\S+/;    
+    if($email.val() == '' || !re.test($email.val())){      
+      var div = $("<div>").html('Please enter a valid email address.');
+      $(div).addClass('email-error-class');          
+      $(".email-field-class").after($(div));
+      event.preventDefault();      
+    }
+  });
+</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8LdHtj702KCU9rC9oSH2CshQABhHS5J0&callback=initMap&libraries=places">
+</script>

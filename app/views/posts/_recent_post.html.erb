@@ -1,0 +1,5 @@
+<ul class="list-unstyled">
+	<% Post.recent_post.each do |post| %>
+	  <li class="none"><%= link_to post.title, post_path(post) %></li>
+	<% end %>
+</ul>
